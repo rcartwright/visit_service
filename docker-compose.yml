@@ -1,0 +1,41 @@
+version: "3"
+services:
+  fieldy_db_container:
+    container_name: db_container
+    image: postgres:9.6
+    ports:
+      - 5430:5432
+    environment:
+      # Set user/password for Postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      # Set a path where Postgres should store the data
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  fieldy_container:
+    container_name: app_container
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: my_service:latest
+    command: [ "sh", "../entrypoint.sh" ]
+    volumes:
+      - ./server:/app/server
+    working_dir: /app/server
+    ports:
+      - "4001:4001"
+    depends_on:
+      - db_container
+    environment:
+      # Variables to connect to our Postgres server
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: visit_api_dev
+      DATABASE_URL: postgres://postgres:postgres@db_container:5432/visit_api_dev
+      PGPORT: 5432
+      # Hostname of our Postgres container
+      PGHOST: db_container
+volumes:
+  pgdata:
