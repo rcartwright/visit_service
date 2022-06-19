@@ -1,10 +1,10 @@
 version: "3"
 services:
-  fieldy_db_container:
+  db_container:
     container_name: db_container
     image: postgres:9.6
     ports:
-      - 5430:5432
+      - 5429:5432
     environment:
       # Set user/password for Postgres
       POSTGRES_USER: postgres
@@ -14,7 +14,7 @@ services:
     restart: always
     volumes:
       - pgdata:/var/lib/postgresql/data
-  fieldy_container:
+  app_container:
     container_name: app_container
     build:
       context: .
@@ -25,7 +25,7 @@ services:
       - ./server:/app/server
     working_dir: /app/server
     ports:
-      - "4001:4001"
+      - "4002:4001"
     depends_on:
       - db_container
     environment:

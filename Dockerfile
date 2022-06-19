@@ -27,12 +27,12 @@ RUN mix archive.install hex phx_new 1.5.7 --force
 #RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez --force
 #RUN mix archive.install hex phx_new 1.5.7 --force
 
-# Compile the project
-#RUN mix deps.compile --force
-RUN mix do deps.get, deps.compile
-#RUN dos2unix entrypoint.sh
+# # Compile the project
+# #RUN mix deps.compile --force
+# RUN mix do deps.get, deps.compile
+# #RUN dos2unix entrypoint.sh
 
-EXPOSE 5430
+EXPOSE 5429
 
 WORKDIR /app
 
