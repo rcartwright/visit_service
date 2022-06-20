@@ -25,7 +25,7 @@ services:
       - ./server:/app/server
     working_dir: /app/server/visit
     ports:
-      - "4002:4001"
+      - "4002:4002"
     depends_on:
       - db_container
     environment:

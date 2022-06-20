@@ -2,10 +2,11 @@ use Mix.Config
 
 # Configure your database
 config :visit, Visit.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "visit_dev",
-  hostname: "localhost",
+  username: System.get_env("PGUSER"),
+  password: System.get_env("PGPASSWORD"),
+  database: System.get_env("PGDATABASE"),
+  hostname: System.get_env("PGHOST"),
+  port: System.get_env("PGPORT"),
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -16,7 +17,7 @@ config :visit, Visit.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :visit, VisitWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: 4002],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -39,6 +40,7 @@ config :visit, VisitWeb.Endpoint,
 #     mix phx.gen.cert
 #
 # Note that this task requires Erlang/OTP 20 or later.
+# Note that this task requires Erlang/OTP 20 or later.dock
 # Run `mix help phx.gen.cert` for more information.
 #
 # The `http:` config above can be replaced with:
