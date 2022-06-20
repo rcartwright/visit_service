@@ -39,7 +39,6 @@ config :visit, VisitWeb.Endpoint,
 #
 #     mix phx.gen.cert
 #
-# Note that this task requires Erlang/OTP 20 or later.
 # Note that this task requires Erlang/OTP 20 or later.dock
 # Run `mix help phx.gen.cert` for more information.
 #

@@ -20,9 +20,11 @@ defmodule VisitWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", VisitWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", VisitWeb do
+    pipe_through :api
+
+    resources "/users", UserController
+  end
 
   # Enables LiveDashboard only for development
   #
