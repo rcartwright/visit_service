@@ -3,6 +3,7 @@
 
 # Wait until Postgres is ready
 echo "running entrypoint.sh..."
+echo "the current entrypoint.sh directory $(ls)"
 echo $PGHOST
 echo $PGPORT
 echo $PGUSER

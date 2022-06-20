@@ -20,10 +20,10 @@ services:
       context: .
       dockerfile: ./Dockerfile
     image: my_service:latest
-    command: [ "sh", "../entrypoint.sh" ]
+    command: [ "sh", "../../entrypoint.sh" ]
     volumes:
       - ./server:/app/server
-    working_dir: /app/server
+    working_dir: /app/server/visit
     ports:
       - "4002:4001"
     depends_on:
