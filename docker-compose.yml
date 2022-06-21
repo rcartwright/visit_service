@@ -23,7 +23,7 @@ services:
     command: [ "sh", "../../entrypoint.sh" ]
     volumes:
       - ./server:/app/server
-    working_dir: /app/server/visit
+    working_dir: /app/server/visit_api
     ports:
       - "4002:4002"
     depends_on:
