@@ -37,6 +37,10 @@ defmodule VisitApi.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+
+  # def get_user!(id) do
+  #   Repo.get!(User, id)
+
   @doc """
   Creates a user.
 
@@ -54,6 +58,20 @@ defmodule VisitApi.Accounts do
     |> User.changeset(attrs)
     |> Repo.insert()
   end
+
+
+  # defmacro __using__(_) do
+  #   quote do
+  #     alias VisitApi.Accounts.User
+
+  #     def create_user(attrs \\ %{}) do
+  #       IO.inspect("attrs YOOO", attrs)
+  #       %User{}
+  #       |> User.changeset(attrs)
+  #       |> Repo.insert()
+  #     end
+  #   end
+  # end
 
   @doc """
   Updates a user.
