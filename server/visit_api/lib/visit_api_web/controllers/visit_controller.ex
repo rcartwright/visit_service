@@ -26,34 +26,22 @@ defmodule VisitApiWeb.VisitController do
   """
 
   # change this to be called request_visit instead in the future to be more specific
-  def create(conn, %{
-    "visit" => %{
-      "member_user_id" => uid,
-      "minutes" => minutes
-    }
-  } = visit_params) do
-    #  in the future - change this to pass in a bearer token in header instead
-    user = Accounts.get_user!(uid)
-   # IO.inspect("minutes > user.minutes_balance", minutes > user.minutes_balance)
-    case minutes > user.minutes_balance do
-      true ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render("error.json",  user: user)
+  def create(conn,  %{"visit" => %{"member_user_id" => uid, "minutes" => minutes} = visit_params}) do
+  #def create(conn, %{"visit" => visit_params}) do
 
-      _ ->
-        with {:ok, %Visit{id: id} = visit} <- Visits.create_visit(visit_params) do
-          visit = Visits.get_visit!(id)
+    IO.inspect(visit_params)
+    IO.inspect(minutes)
 
-        #  IO.inspect("the created visit", visit)
+    with {:ok, %Visit{id: id} = visit} <- Visits.create_visit(visit_params) do
+      visit = Visits.get_visit!(id)
 
-          conn
-          # check to make sure user has enough minutes left & that user doesn't already have anything already submitted for that day
-          |> put_status(:created)
-          |> put_resp_header("location", Routes.visit_path(conn, :show, visit))
-          |> render("show.json", visit: visit)
-        end
+      conn
+      # check to make sure user has enough minutes left & that user doesn't already have anything already submitted for that day
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.visit_path(conn, :show, visit))
+      |> render("show.json", visit: visit)
     end
+
   end
 
   def show(conn, %{"id" => id}) do
