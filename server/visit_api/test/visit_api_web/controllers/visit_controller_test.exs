@@ -8,7 +8,7 @@ defmodule VisitApiWeb.VisitControllerTest do
   alias VisitApi.Accounts
 
   @create_attrs %{
-    member_user_id: 3,
+    member_user_id: "some member_user_id",
     minutes: 42,
     requested_on: "2010-04-17T14:00:00Z",
     visit_date: "2010-04-17T14:00:00Z"
@@ -35,8 +35,8 @@ defmodule VisitApiWeb.VisitControllerTest do
 
   def fixture(:user) do
     {:ok, user} = Accounts.create_user(@create_user_attrs)
-    IO.inspect("user inside fixture")
-    IO.inspect(user)
+    # IO.inspect("user inside fixture")
+    # IO.inspect(user)
     user
   end
 
@@ -69,64 +69,99 @@ defmodule VisitApiWeb.VisitControllerTest do
     #   } = json_response(conn, 200)["data"]
     # end
 
-    test "renders errors user does not have enough minutes to request visit", %{conn: conn, user: %User{id: id} = user} do
-      IO.inspect("before user")
-      IO.inspect(user)
 
+    # test "renders errors user does not have enough minutes to request visit", %{conn: conn, user: %User{id: id} = user} do
+    #   create_attrs = %{
+    #     member_user_id: id,
+    #     minutes: 50,
+    #     requested_on: "2010-04-17T14:00:00Z",
+    #     visit_date: "2010-04-17T14:00:00Z"
+    #   }
+
+    #   conn = post(conn, Routes.visit_path(conn, :create), visit: create_attrs)
+
+    #   assert json_response(conn, 422)["errors"] != %{}
+    # end
+
+
+    # test "renders visit when data is valid", %{conn: conn} do
+    #   conn = post(conn, Routes.visit_path(conn, :create), visit: @create_attrs)
+    #   assert %{"id" => id} = json_response(conn, 201)["data"]
+
+    #   conn = get(conn, Routes.visit_path(conn, :show, id))
+
+    #   assert %{
+    #            "id" => id,
+    #            "member_user_id" => "some member_user_id",
+    #            "minutes" => 42,
+    #            "requested_on" => "2010-04-17T14:00:00Z",
+    #            "visit_date" => "2010-04-17T14:00:00Z"
+    #          } = json_response(conn, 200)["data"]
+    # end
+    @tag mustexec: true
+    test "renders visit when data is valid", %{conn: conn, user: %User{id: user_id} = user} do
       create_attrs = %{
-        member_user_id: id,
-        minutes: 50,
+        member_user_id: user_id,
+        minutes: 10,
         requested_on: "2010-04-17T14:00:00Z",
         visit_date: "2010-04-17T14:00:00Z"
       }
-
       conn = post(conn, Routes.visit_path(conn, :create), visit: create_attrs)
+      assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      assert json_response(conn, 403)["errors"] != %{}
+      conn = get(conn, Routes.visit_path(conn, :show, id))
+
+      assert %{
+        "id" => id,
+        "member_user_id" => user_id,
+        "minutes" => 10,
+        "requested_on" => "2010-04-17T14:00:00Z",
+        "visit_date" => "2010-04-17T14:00:00Z"
+      } = json_response(conn, 200)["data"]
+
     end
-
     # test "renders errors when data is invalid", %{conn: conn} do
     #   conn = post(conn, Routes.visit_path(conn, :create), visit: @invalid_attrs)
     #   assert json_response(conn, 422)["errors"] != %{}
     # end
   end
 
-  describe "update visit" do
-    setup [:create_visit]
+  # describe "update visit" do
+  #   setup [:create_visit]
 
-    test "renders visit when data is valid", %{conn: conn, visit: %Visit{id: id} = visit} do
-      conn = put(conn, Routes.visit_path(conn, :update, visit), visit: @update_attrs)
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+  #   test "renders visit when data is valid", %{conn: conn, visit: %Visit{id: id} = visit} do
+  #     conn = put(conn, Routes.visit_path(conn, :update, visit), visit: @update_attrs)
+  #     assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, Routes.visit_path(conn, :show, id))
+  #     conn = get(conn, Routes.visit_path(conn, :show, id))
 
-      assert %{
-              "id" => id,
-              "member_user_id" => "some updated member_user_id",
-              "minutes" => 43,
-              "requested_on" => "2011-05-18T15:01:01Z",
-              "visit_date" => "2011-05-18T15:01:01Z"
-            } = json_response(conn, 200)["data"]
-    end
+  #     assert %{
+  #             "id" => id,
+  #             "member_user_id" => "some updated member_user_id",
+  #             "minutes" => 43,
+  #             "requested_on" => "2011-05-18T15:01:01Z",
+  #             "visit_date" => "2011-05-18T15:01:01Z"
+  #           } = json_response(conn, 200)["data"]
+  #   end
 
-    test "renders errors when data is invalid", %{conn: conn, visit: visit} do
-      conn = put(conn, Routes.visit_path(conn, :update, visit), visit: @invalid_attrs)
-      assert json_response(conn, 422)["errors"] != %{}
-    end
-  end
+  #   test "renders errors when data is invalid", %{conn: conn, visit: visit} do
+  #     conn = put(conn, Routes.visit_path(conn, :update, visit), visit: @invalid_attrs)
+  #     assert json_response(conn, 422)["errors"] != %{}
+  #   end
+  # end
 
-  describe "delete visit" do
-    setup [:create_visit]
+  # describe "delete visit" do
+  #   setup [:create_visit]
 
-    test "deletes chosen visit", %{conn: conn, visit: visit} do
-      conn = delete(conn, Routes.visit_path(conn, :delete, visit))
-      assert response(conn, 204)
+  #   test "deletes chosen visit", %{conn: conn, visit: visit} do
+  #     conn = delete(conn, Routes.visit_path(conn, :delete, visit))
+  #     assert response(conn, 204)
 
-      assert_error_sent 404, fn ->
-        get(conn, Routes.visit_path(conn, :show, visit))
-      end
-    end
-  end
+  #     assert_error_sent 404, fn ->
+  #       get(conn, Routes.visit_path(conn, :show, visit))
+  #     end
+  #   end
+  # end
 
   defp create_visit(_) do
     visit = fixture(:visit)

@@ -7,6 +7,14 @@ defmodule VisitApiWeb.ErrorView do
   #   "Internal Server Error"
   # end
 
+  def render("422.json", _assigns) do
+    %{status: 422, message: "Unprocessable entry"}
+  end
+
+  def render("500.json", _assigns) do
+    %{status: 500, message: "Internal Server Error"}
+  end
+
   # By default, Phoenix returns the status message from
   # the template name. For example, "404.html" becomes
   # "Not Found".

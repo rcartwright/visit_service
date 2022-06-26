@@ -17,4 +17,8 @@ defmodule VisitApiWeb.VisitView do
       visit_date: visit.visit_date,
       minutes: visit.minutes}
   end
+
+  def render("422.json", _assigns) do
+    %{status: 422, message: "Unprocessable entry"}
+  end
 end

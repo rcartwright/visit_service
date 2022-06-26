@@ -29,10 +29,12 @@ defmodule VisitApiWeb.VisitController do
   def create(conn,  %{"visit" => %{"member_user_id" => uid, "minutes" => minutes} = visit_params}) do
   #def create(conn, %{"visit" => visit_params}) do
 
-    IO.inspect(visit_params)
-    IO.inspect(minutes)
+    # IO.inspect(visit_params)
+    # IO.inspect(minutes)
 
     with {:ok, %Visit{id: id} = visit} <- Visits.create_visit(visit_params) do
+      IO.inspect("before visit id")
+      IO.inspect(id)
       visit = Visits.get_visit!(id)
 
       conn
