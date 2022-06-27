@@ -1,20 +1,18 @@
 # VisitApi
 
-To start your Phoenix server:
+To start the server:
 
-  * Install dependencies with `mix deps.get`
+## If on Windows
+  * install docker if not installed
+  * docker-machine start
+  * docker-machine env
+  * docker-compose up -d - should build the image which installs elixir and runs the basic mix commands necessary for setup.
   * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+  * Send requests to http://192.168.99.100:4002/ (or whatever the ip that docker is on) with the /api prefix for api requests
 
-Now you can visit_api [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+## If on Mac
+  * install docker if not installed
+  * start docker through the docker UI
+  * docker-compose up -d - should build the image which installs elixir and runs the basic mix commands necessary for setup.
+  * Create and migrate your database with `mix ecto.setup`
+  * Go to http://localhost:4002/ with the /api prefix for api requests

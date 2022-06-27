@@ -24,19 +24,10 @@ RUN echo $(ls)
 RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix archive.install hex phx_new 1.5.7 --force
-#RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez --force
-#RUN mix archive.install hex phx_new 1.5.7 --force
 
 # Compile the project
-#RUN mix deps.compile --force
 RUN mix do deps.get, deps.compile
-#RUN dos2unix entrypoint.sh
 
 EXPOSE 5429
-
-# WORKDIR /app
-
-#CMD ["mix", "phx.server"]
-#CMD ["entrypoint.sh"]
 
 #go to http://192.168.99.100:4002/
