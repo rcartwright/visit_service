@@ -1,6 +1,8 @@
 defmodule VisitApi.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [type: :utc_datetime]
+  @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "users" do
     field :email, :string
