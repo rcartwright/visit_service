@@ -4,6 +4,7 @@ defmodule VisitApi.Visits.Visit do
 
   alias VisitApi.Accounts
   alias VisitApi.Accounts.User
+  @timestamps_opts [type: :utc_datetime]
 
   schema "visits" do
     field :member_user_id, :binary
@@ -16,17 +17,15 @@ defmodule VisitApi.Visits.Visit do
 
   @doc false
   def changeset(visit, attrs) do
-    # IO.inspect("before visit")
-    # IO.inspect(visit)
-    # IO.inspect("before attrs")
-    # IO.inspect(attrs)
-
     visit
     |> cast(attrs, [:member_user_id, :requested_on, :visit_date, :minutes])
     |> validate_required([:member_user_id, :requested_on, :visit_date, :minutes])
     |> validate_minutes()
   end
 
+  @doc """
+  This is here so that members cannot request visits if they do not have enough minutes in their balance.
+  """
   defp validate_minutes(%Ecto.Changeset{valid?: true} = changeset) do
     minutes_requested = get_field(changeset, :minutes)
     user_id = get_field(changeset, :member_user_id)
