@@ -7,8 +7,7 @@ defmodule VisitApi.VisitsTest do
   describe "visits" do
     alias VisitApi.Visits.Visit
 
-    @update_attrs %{member_user_id: "some updated member_user_id", minutes: 43, requested_on: "2011-05-18T15:01:01Z", visit_date: "2011-05-18T15:01:01Z"}
-    @invalid_attrs %{member_user_id: nil, minutes: nil, requested_on: nil, visit_date: nil}
+    @invalid_visit_attrs %{member_user_id: nil, minutes: nil, requested_on: nil, visit_date: nil}
     @create_user_attrs %{
       email: "some email",
       first_name: "some first_name",
@@ -68,7 +67,7 @@ defmodule VisitApi.VisitsTest do
     end
 
     test "create_visit/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Visits.create_visit(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Visits.create_visit(@invalid_visit_attrs)
     end
 
     test "update_visit/2 with valid data updates the visit" do
@@ -90,7 +89,7 @@ defmodule VisitApi.VisitsTest do
     test "update_visit/2 with invalid data returns error changeset" do
       user = user_fixture()
       visit = visit_fixture(user)
-      assert {:error, %Ecto.Changeset{}} = Visits.update_visit(visit, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Visits.update_visit(visit, @invalid_visit_attrs)
       assert visit == Visits.get_visit!(visit.id)
     end
 

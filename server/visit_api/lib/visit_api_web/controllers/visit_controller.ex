@@ -23,9 +23,7 @@ defmodule VisitApiWeb.VisitController do
     }
   }
   """
-  # perhaps change this to be called request_visit instead in the future to be more specific
   def create(conn, %{"visit" => visit_params}) do
-
     with {:ok, visit} <- Visits.create_visit(visit_params) do
 
       conn

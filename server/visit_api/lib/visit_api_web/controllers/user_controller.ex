@@ -11,6 +11,18 @@ defmodule VisitApiWeb.UserController do
     render(conn, "index.json", users: users)
   end
 
+  @doc """
+  This is for creating users.
+  Sample request body:
+  {
+    "user": {
+        "first_name": "Rachel",
+        "last_name": "Cartwright",
+        "minutes_balance": 20,
+        "email": "stormchica@gmail.com"
+    }
+  }
+  """
   def create(conn, %{"user" => user_params}) do
     with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
       conn

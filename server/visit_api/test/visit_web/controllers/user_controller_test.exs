@@ -42,7 +42,7 @@ defmodule VisitApiWeb.UserControllerTest do
       conn = get(conn, Routes.user_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => ^id,
                "email" => "some email",
                "first_name" => "some first_name",
                "last_name" => "some last_name",
@@ -66,7 +66,7 @@ defmodule VisitApiWeb.UserControllerTest do
       conn = get(conn, Routes.user_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => ^id,
                "email" => "some updated email",
                "first_name" => "some updated first_name",
                "last_name" => "some updated last_name",
