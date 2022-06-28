@@ -24,7 +24,7 @@ defmodule VisitApiWeb.Router do
     pipe_through :api
 
     resources "/users", UserController
-    resources "/visits", VisitController
+    resources "/visits", VisitController, only: [:create, :index, :show]
   end
 
   # Enables LiveDashboard only for development

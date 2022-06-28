@@ -3,8 +3,6 @@ defmodule VisitApiWeb.VisitController do
 
   alias VisitApi.Visits
   alias VisitApi.Visits.Visit
-  alias VisitApi.Accounts
-  alias VisitApi.Accounts.User
 
   action_fallback VisitApiWeb.FallbackController
 
@@ -14,31 +12,23 @@ defmodule VisitApiWeb.VisitController do
   end
 
   @doc """
-  Sample request body for create
+  This is used for members to request a visit.
+  Sample request body:
   {
     "visit": {
-        "member_user_id": "some member_user_id",
+        "member_user_id": "a uuid",
         "minutes": 43,
         "requested_on": "2011-05-18T15:01:01Z",
         "visit_date": "2011-05-18T15:01:01Z"
     }
   }
   """
+  # perhaps change this to be called request_visit instead in the future to be more specific
+  def create(conn, %{"visit" => visit_params}) do
 
-  # change this to be called request_visit instead in the future to be more specific
-  def create(conn,  %{"visit" => %{"member_user_id" => uid, "minutes" => minutes} = visit_params}) do
-  #def create(conn, %{"visit" => visit_params}) do
-
-    # IO.inspect(visit_params)
-    # IO.inspect(minutes)
-
-    with {:ok, %Visit{id: id} = visit} <- Visits.create_visit(visit_params) do
-      IO.inspect("before visit id")
-      IO.inspect(id)
-      visit = Visits.get_visit!(id)
+    with {:ok, visit} <- Visits.create_visit(visit_params) do
 
       conn
-      # check to make sure user has enough minutes left & that user doesn't already have anything already submitted for that day
       |> put_status(:created)
       |> put_resp_header("location", Routes.visit_path(conn, :show, visit))
       |> render("show.json", visit: visit)
