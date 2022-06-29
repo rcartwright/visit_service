@@ -2,6 +2,7 @@ defmodule VisitApi.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias VisitApi.Visits.Visit
+  alias VisitApi.Minutes.Minute
 
   @timestamps_opts [type: :utc_datetime]
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -13,6 +14,7 @@ defmodule VisitApi.Accounts.User do
     field :last_name, :string
     field :minutes_balance, :integer
     has_many(:visits, Visit, on_replace: :delete)
+    has_one(:minutes, Minute, on_replace: :delete)
 
     timestamps()
   end
