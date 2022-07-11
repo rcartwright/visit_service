@@ -20,7 +20,7 @@ defmodule VisitApi.MixProject do
   def application do
     [
       mod: {VisitApi.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :uuid]
     ]
   end
 
@@ -45,7 +45,7 @@ defmodule VisitApi.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      { :uuid, "~> 1.1", only: :dev }
+      { :uuid, "~> 1.1", only: :test }
     ]
   end
 
