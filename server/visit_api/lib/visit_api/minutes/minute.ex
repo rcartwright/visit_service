@@ -18,5 +18,6 @@ defmodule VisitApi.Minutes.Minute do
     minute
     |> cast(attrs, [:user_id, :available_balance, :balance])
     |> validate_required([:user_id, :available_balance, :balance])
+    |> assoc_constraint(:user)
   end
 end

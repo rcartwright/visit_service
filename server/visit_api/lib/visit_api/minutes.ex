@@ -7,6 +7,7 @@ defmodule VisitApi.Minutes do
   alias VisitApi.Repo
 
   alias VisitApi.Minutes.Minute
+  alias VisitApi.Accounts.User
 
   @doc """
   Returns the list of minutes.
@@ -49,8 +50,9 @@ defmodule VisitApi.Minutes do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_minute(attrs \\ %{}) do
-    %Minute{}
+  def create_minute(attrs \\ %{}, %User{} = user) do
+    user
+    |> Ecto.build_assoc(:minutes)
     |> Minute.changeset(attrs)
     |> Repo.insert()
   end

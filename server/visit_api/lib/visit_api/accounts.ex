@@ -18,7 +18,9 @@ defmodule VisitApi.Accounts do
 
   """
   def list_users do
-    Repo.all(User)
+    User
+    |> Repo.all()
+    |> Repo.preload(:minutes)
   end
 
   @doc """
@@ -35,8 +37,11 @@ defmodule VisitApi.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
-
+  def get_user!(id) do
+    User
+    |> Repo.get!(id)
+    |> Repo.preload(:minutes)
+  end
 
   # def get_user!(id) do
   #   Repo.get!(User, id)
@@ -57,6 +62,10 @@ defmodule VisitApi.Accounts do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
+    |> case do
+        {:ok, %User{} = user} -> {:ok, Repo.preload(user, :minutes)}
+        error -> error
+    end
   end
 
 
