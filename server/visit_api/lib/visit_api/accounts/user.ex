@@ -12,7 +12,7 @@ defmodule VisitApi.Accounts.User do
     field :email, :string
     field :first_name, :string
     field :last_name, :string
-    field :minutes_balance, :integer
+    field :minutes_balance, :integer # Todo: remove field once the minutes model is set up
     has_many(:visits, Visit, on_replace: :delete)
     has_one(:minutes, Minute, on_replace: :delete)
 
@@ -23,6 +23,7 @@ defmodule VisitApi.Accounts.User do
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:first_name, :last_name, :email, :minutes_balance])
+    |> cast_assoc(:minutes)
     |> validate_required([:first_name, :last_name, :email, :minutes_balance])
   end
 end
