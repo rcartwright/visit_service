@@ -7,7 +7,6 @@ defmodule VisitApi.MinutesTest do
   describe "minutes" do
     alias VisitApi.Minutes.Minute
 
-    #@update_attrs %{available_balance: 43, balance: 43, user_id: UUID.uuid1()}
     @invalid_attrs %{available_balance: nil, balance: nil, user_id: nil}
     @create_user_attrs %{
       email: "some email",
@@ -56,33 +55,38 @@ defmodule VisitApi.MinutesTest do
       assert minute.user_id == user.id
     end
 
-    # test "create_minute/1 with invalid data returns error changeset" do
-    #   assert {:error, %Ecto.Changeset{}} = Minutes.create_minute(@invalid_attrs)
-    # end
+    test "create_minute/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Minutes.create_minute(@invalid_attrs)
+    end
 
-    # test "update_minute/2 with valid data updates the minute" do
-    #   minute = minute_fixture()
-    #   assert {:ok, %Minute{} = minute} = Minutes.update_minute(minute, @update_attrs)
-    #   assert minute.available_balance == 43
-    #   assert minute.balance == 43
-    #   assert minute.user_id == "some updated user_id"
-    # end
+    test "update_minute/2 with valid data updates the minute" do
+      user = user_fixture()
+      minute = minute_fixture(user)
+      update_attrs = %{available_balance: 43, balance: 43}
+      assert {:ok, %Minute{} = minute} = Minutes.update_minute(minute, update_attrs)
+      assert minute.available_balance == 43
+      assert minute.balance == 43
+      assert minute.user_id == user.id
+    end
 
-    # test "update_minute/2 with invalid data returns error changeset" do
-    #   minute = minute_fixture()
-    #   assert {:error, %Ecto.Changeset{}} = Minutes.update_minute(minute, @invalid_attrs)
-    #   assert minute == Minutes.get_minute!(minute.id)
-    # end
+    test "update_minute/2 with invalid data returns error changeset" do
+      user = user_fixture()
+      minute = minute_fixture(user)
+      assert {:error, %Ecto.Changeset{}} = Minutes.update_minute(minute, @invalid_attrs)
+      assert minute == Minutes.get_minute!(minute.id)
+    end
 
-    # test "delete_minute/1 deletes the minute" do
-    #   minute = minute_fixture()
-    #   assert {:ok, %Minute{}} = Minutes.delete_minute(minute)
-    #   assert_raise Ecto.NoResultsError, fn -> Minutes.get_minute!(minute.id) end
-    # end
+    test "delete_minute/1 deletes the minute" do
+      user = user_fixture()
+      minute = minute_fixture(user)
+      assert {:ok, %Minute{}} = Minutes.delete_minute(minute)
+      assert_raise Ecto.NoResultsError, fn -> Minutes.get_minute!(minute.id) end
+    end
 
-    # test "change_minute/1 returns a minute changeset" do
-    #   minute = minute_fixture()
-    #   assert %Ecto.Changeset{} = Minutes.change_minute(minute)
-    # end
+    test "change_minute/1 returns a minute changeset" do
+      user = user_fixture()
+      minute = minute_fixture(user)
+      assert %Ecto.Changeset{} = Minutes.change_minute(minute)
+    end
   end
 end
