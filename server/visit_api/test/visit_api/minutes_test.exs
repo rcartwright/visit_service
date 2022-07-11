@@ -47,12 +47,14 @@ defmodule VisitApi.MinutesTest do
       assert Minutes.get_minute!(minute.id) == minute
     end
 
-    # test "create_minute/1 with valid data creates a minute" do
-    #   assert {:ok, %Minute{} = minute} = Minutes.create_minute(@valid_attrs)
-    #   assert minute.available_balance == 42
-    #   assert minute.balance == 42
-    #   assert minute.user_id == "some user_id"
-    # end
+    test "create_minute/1 with valid data creates a minute" do
+      user = user_fixture()
+      valid_attrs = %{available_balance: 42, balance: 42, user_id: user.id}
+      assert {:ok, %Minute{} = minute} = Minutes.create_minute(valid_attrs)
+      assert minute.available_balance == 42
+      assert minute.balance == 42
+      assert minute.user_id == user.id
+    end
 
     # test "create_minute/1 with invalid data returns error changeset" do
     #   assert {:error, %Ecto.Changeset{}} = Minutes.create_minute(@invalid_attrs)
