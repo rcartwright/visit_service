@@ -59,20 +59,6 @@ defmodule VisitApi.Accounts do
     |> Repo.insert()
   end
 
-
-  # defmacro __using__(_) do
-  #   quote do
-  #     alias VisitApi.Accounts.User
-
-  #     def create_user(attrs \\ %{}) do
-  #       IO.inspect("attrs YOOO", attrs)
-  #       %User{}
-  #       |> User.changeset(attrs)
-  #       |> Repo.insert()
-  #     end
-  #   end
-  # end
-
   @doc """
   Updates a user.
 
